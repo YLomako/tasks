@@ -1,0 +1,38 @@
+def align_columns(text):
+    # Разбить каждую строку на поля
+    fields = [line.split('$') for line in text]
+    # Найти количество столбцов
+    num_columns = max(len(line) for line in fields)
+    # Найти максимальную длину поля для каждого столбца
+    max_lengths = [max(len(fields[i][j]) if j < len(fields[i]) else 0 for i in range(len(fields))) for j in range(num_columns)]
+    # Выровнять поля в каждом столбце
+    aligned_fields = []
+    for line in fields:
+        aligned_line = []
+        for i in range(num_columns):
+            if i < len(line):
+                field = line[i]
+            else:
+                field = ''
+            aligned_field = field.ljust(max_lengths[i])
+            aligned_line.append(aligned_field)
+        aligned_fields.append(aligned_line)
+    # Объединить выровненные поля обратно в строки
+    aligned_testText = [' '.join(line) for line in aligned_fields]
+    return aligned_testText
+
+testText = [
+  'Given$a$text$file$of$many$lines',
+  'where$fields$within$a$line$',
+  'are$delineated$by$a$single$"dollar"$character',
+  'write$a$program',
+  'that$aligns$each$column$of$fields',
+  'by$ensuring$that$words$in$each$',
+  'column$are$separated$by$at$least$one$space.',
+  'Further,$allow$for$each$word$in$a$column$to$be$either$left$',
+  'justified,$right$justified',
+  'or$center$justified$within$its$column.']
+aligned_testText = align_columns(testText)
+
+for line in aligned_testText:
+    print(line)
